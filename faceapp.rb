@@ -2,7 +2,8 @@
 require 'rubygems'
 require 'bundler'
 Bundler.require
-require 'sinatra'
+# require "sinatra/base"
+# require "sinatra/reloader"
 
 # Load up all our secrets
 Dotenv.load
@@ -15,6 +16,8 @@ Aws.config.update({
 
 # Default collection name
 FACE_COLLECTION = "faceapp_test"
+set :bind, '0.0.0.0'
+# set :environment, :development
 
 # The routes
 get '/' do

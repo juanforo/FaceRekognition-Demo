@@ -1,5 +1,5 @@
 $(document).ready(function() {
-location.reload();
+
   if (window.JpegCamera) {
 
     var camera; // placeholder
@@ -53,7 +53,7 @@ location.reload();
         $.post("/speech", {tosay: "I can't recognize you. Sorry"}, function(response) {
           $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
           $("#audio_speech")[0].play();
-          
+
         });
         // $("#upload_status").html("Upload failed with status " + status_code + " (" + error_message + ")");
         // $("#upload_result").html(response);
