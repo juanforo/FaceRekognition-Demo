@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+location.reload();
   if (window.JpegCamera) {
 
     var camera; // placeholder
@@ -22,7 +22,7 @@ $(document).ready(function() {
         $("#upload_status").html("Upload failed with status " + status_code + " (" + error_message + ")");
         $("#upload_result").html(response);
         $("#loading_img").hide();
-      });
+     });
     };
 
 
@@ -33,6 +33,7 @@ $(document).ready(function() {
       $("#loading_img").show();
       snapshot.upload({api_url: api_url}).done(function(response) {
         var data = JSON.parse(response);
+        console.log(data);
         if (data.id !== undefined) {
           $("#upload_result").html(data.message + ": " + data.id + ", Confidence: " + data.confidence);
           // create speech response
@@ -41,32 +42,41 @@ $(document).ready(function() {
             $("#audio_speech")[0].play();
           });
         } else {
-          $("#upload_result").html(data.message);
+          $.post("/speech", {tosay: "I can't recognize you. Sorry"}, function(response) {
+            $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
+            $("#audio_speech")[0].play();
+          });
         }
         $("#loading_img").hide();
         this.discard();
       }).fail(function(status_code, error_message, response) {
-        $("#upload_status").html("Upload failed with status " + status_code + " (" + error_message + ")");
-        $("#upload_result").html(response);
-        $("#loading_img").hide();
+        $.post("/speech", {tosay: "I can't recognize you. Sorry"}, function(response) {
+          $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
+          $("#audio_speech")[0].play();
+          
+        });
+        // $("#upload_status").html("Upload failed with status " + status_code + " (" + error_message + ")");
+        // $("#upload_result").html(response);
+        // $("#loading_img").hide();
       });
+
     };
 
     var greetingTime = function(moment) {
       var greet = null;
-      
+
       if(!moment || !moment.isValid()) { return; } //if we can't find a valid or filled moment, we return.
             var split_afternoon = 12 //24hr time to split the afternoon
       var split_evening = 17 //24hr time to split the evening
       var currentHour = parseFloat(moment.format("HH"));
-      
+
       if(currentHour >= split_afternoon && currentHour <= split_evening) {
         greet = "afternoon";
       } else if(currentHour >= split_evening) {
         greet = "evening";
       } else {
         greet = "morning";
-      }      
+      }
       return greet;
     }
 
@@ -80,7 +90,7 @@ $(document).ready(function() {
       shutter_mp3_url: "js/jpeg_camera/shutter.mp3",
       swf_url: "js/jpeg_camera/jpeg_camera.swf"
     }
-    
+
 
     camera = new JpegCamera("#camera", options).ready(function(info) {
       $("#loading_img").hide();
