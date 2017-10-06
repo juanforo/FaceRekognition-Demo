@@ -50,7 +50,7 @@ post '/compare' do
   if response.face_matches.count > 1
     {:message => "Too many faces found"}.to_json
   elsif response.face_matches.count == 0
-    {:message => "No face detected!"}.to_json
+    {:message => ""}.to_json
   else
     # "Comparison finished - detected #{ response.face_matches[0].face.external_image_id } with #{ response.face_matches[0].face.confidence } accuracy."
     {:id => response.face_matches[0].face.external_image_id, :confidence => response.face_matches[0].face.confidence, :message => "Face found!"}.to_json

@@ -36,7 +36,7 @@ $(document).ready(function() {
         if (data.id !== undefined) {
           $("#upload_result").html(data.message + ": " + data.id + ", Confidence: " + data.confidence);
           // create speech response
-          $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id}, function(response) {
+          $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have 3 new tickets, and 1, new project awaiting for you!, also, please remember to fill your oracle timesheets"}, function(response) {
             $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
             $("#audio_speech")[0].play();
           });
