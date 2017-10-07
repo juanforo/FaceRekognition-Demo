@@ -1,8 +1,9 @@
 $(document).ready(function() {
 
   if (window.JpegCamera) {
-
-    var camera; // placeholder
+      //Variable to pause the snapshots if someone was recognized
+      var interval = 0;
+      var camera; // placeholder
 
     // Add the photo taken to the current Rekognition collection for later comparison
     var add_to_collection = function() {
@@ -25,6 +26,12 @@ $(document).ready(function() {
      });
     };
 
+    function intervalManager(flag) {
+        if(flag)
+            interval = setInterval(compare_image, 5000);
+        else
+            clearInterval(interval);
+    }
 
     // Compare the photographed image to the current Rekognition collection
     var compare_image = function() {
@@ -35,12 +42,15 @@ $(document).ready(function() {
         var data = JSON.parse(response);
         console.log(data);
         if (data.id !== undefined) {
-          $("#upload_result").html(data.message + ": " + data.id + ", Confidence: " + data.confidence);
-          // create speech response
-          $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have 3 new tickets, and 1, new project awaiting for you!, also, please remember to fill your oracle timesheets"}, function(response) {
-            $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
-            $("#audio_speech")[0].play();
-          });
+            intervalManager(false);
+            $("#upload_result").html(data.message + ": " + data.id + ", Confidence: " + data.confidence);
+            // create speech response
+            $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have 3 new tickets, and 1, new project awaiting for you!, also, please remember to fill your oracle timesheets"}, function(response) {
+                $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
+                $("#audio_speech")[0].play();
+            });
+           setTimeout(function () {intervalManager(true);},10000);
+
         } else {
           $.post("/speech", {tosay: "I can't recognize you. Sorry"}, function(response) {
             $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
@@ -82,8 +92,8 @@ $(document).ready(function() {
 
     // Define what the button clicks do.
     $("#add_to_collection").click(add_to_collection);
-    $("#compare_image").click(compare_image);
-    setInterval(compare_image, 5000);
+    //starts timer
+    intervalManager(true);
     // Initiate the camera widget on screen
     var options = {
       shutter_ogg_url: "js/jpeg_camera/shutter.ogg",
