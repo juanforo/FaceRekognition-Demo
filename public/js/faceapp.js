@@ -83,7 +83,7 @@ $(document).ready(function() {
     // Define what the button clicks do.
     $("#add_to_collection").click(add_to_collection);
     $("#compare_image").click(compare_image);
-
+    setInterval(compare_image, 5000);
     // Initiate the camera widget on screen
     var options = {
       shutter_ogg_url: "js/jpeg_camera/shutter.ogg",
