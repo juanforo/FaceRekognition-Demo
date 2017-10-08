@@ -14,6 +14,7 @@ $(document).ready(function() {
             clearInterval(interval);
     }
 
+
     // Compare the photographed image to the current Rekognition collection
     var compare_image = function() {
       var snapshot = camera.capture();
@@ -22,6 +23,7 @@ $(document).ready(function() {
         var data = JSON.parse(response);
         console.log(data);
         if (data.id !== undefined && data.id != "0" && data.id != "UNRECOGNIZED") {
+            $("#overlay").show();
             intervalManager(false);
             // create speech response
             $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have 3 new tickets, and 1, new project awaiting for you!, also, please remember to fill your oracle timesheets"}, function(response) {

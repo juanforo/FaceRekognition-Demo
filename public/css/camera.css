@@ -5,17 +5,73 @@ body {
   font-family: "Helvetica Neueu", "Helvetica", "Arial", sans;
 }
 
-
-
-
 #camera {
   display: inline-block;
+  position: absolute;
   background-color: #eee;
+  top: 10px;
+  left: 10px;
   width: 1280px;
   height: 720px;
-  margin: 0.5em;
 }
+
+#animated {
+  color: #ffffff;
+  bottom: 0px;
+  left: 0px;
+}
+
+#overlay {
+  top: 10px;
+  left: 10px;
+  z-index: 99;
+  width: 1280px;
+  height: 720px;
+  position: absolute;
+  display: none;
+}
+
 
 #camera .placeholder {
   padding: 0.5em;
 }
+
+
+.title{
+  display: block;
+  float: left;
+  left: 50%;
+  position: relative;
+  color: white;
+  -webkit-animation-name: animation;
+  -moz-animation-name: animation;
+  -o-animation-name: animation;
+  animation-name: animation;
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  -o-animation-duration: 1s;
+  animation-duration: 1s;
+}
+
+@keyframes animation {
+  from {top: -100px;}
+  to {top: 0px;}
+}
+
+h1{
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 42px;
+  margin: 0;
+  line-height: 47px;
+  letter-spacing: 2px;
+}
+
+span {
+  display: block;
+  float: left;
+  min-width: 10px;
+  min-height: 10px;
+  position: relative;
+}
+
