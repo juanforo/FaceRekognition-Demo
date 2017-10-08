@@ -41,7 +41,7 @@ $(document).ready(function() {
       snapshot.upload({api_url: api_url}).done(function(response) {
         var data = JSON.parse(response);
         console.log(data);
-        if (data.id !== undefined && data.id != "0") {
+        if (data.id !== undefined && data.id != "0" && data.id != "UNRECOGNIZED") {
             intervalManager(false);
             $("#upload_result").html(data.message + ": " + data.id + ", Confidence: " + data.confidence);
             // create speech response

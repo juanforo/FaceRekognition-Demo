@@ -53,17 +53,18 @@ post '/compare' do
         bytes: request.body.read.to_s
       }
     })
-  rescue Exception => e
+  rescue Aws::Rekognition::Errors::InvalidParameterException => e
     puts e.message
-    response = OpenStruct.new(:face_matches => [])
+    response = OpenStruct.new(:face_matches => [], :facecount => 0)
     puts response.face_matches
   end
-  puts "iam after the exeption"
 
   if response.face_matches.count > 1
     {:message => "Too many faces found"}.to_json
-  elsif response.face_matches.count == 0
+  elsif response.face_matches.count == 0 && response.respond_to?('facecount')
     {:id => "0", :message => "No faces"}.to_json
+  elsif response.face_matches.count == 0 && !response.respond_to?('facecount')
+    {:id => "UNRECOGNIZED", :message => "UNRECOGNIZED FACE"}.to_json
   else
     # "Comparison finished - detected #{ response.face_matches[0].face.external_image_id } with #{ response.face_matches[0].face.confidence } accuracy."
     {:id => response.face_matches[0].face.external_image_id, :confidence => response.face_matches[0].face.confidence, :message => "Face found!"}.to_json
