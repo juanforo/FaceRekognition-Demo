@@ -6,25 +6,6 @@ $(document).ready(function() {
       var camera; // placeholder
 
     // Add the photo taken to the current Rekognition collection for later comparison
-    var add_to_collection = function() {
-      var photo_id = $("#photo_id").val();
-      if (!photo_id.length) {
-        $("#upload_status").html("Please provide name for the upload");
-        return;
-      }
-      var snapshot = camera.capture();
-      var api_url = "/upload/" + photo_id;
-      $("#loading_img").show();
-      snapshot.upload({api_url: api_url}).done(function(response) {
-        $("#upload_result").html(response);
-        $("#loading_img").hide();
-        this.discard();
-      }).fail(function(status_code, error_message, response) {
-        $("#upload_status").html("Upload failed with status " + status_code + " (" + error_message + ")");
-        $("#upload_result").html(response);
-        $("#loading_img").hide();
-     });
-    };
 
     function intervalManager(flag) {
         if(flag)
@@ -37,13 +18,11 @@ $(document).ready(function() {
     var compare_image = function() {
       var snapshot = camera.capture();
       var api_url = "/compare";
-      $("#loading_img").show();
       snapshot.upload({api_url: api_url}).done(function(response) {
         var data = JSON.parse(response);
         console.log(data);
         if (data.id !== undefined && data.id != "0" && data.id != "UNRECOGNIZED") {
             intervalManager(false);
-            $("#upload_result").html(data.message + ": " + data.id + ", Confidence: " + data.confidence);
             // create speech response
             $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have 3 new tickets, and 1, new project awaiting for you!, also, please remember to fill your oracle timesheets"}, function(response) {
                 $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
@@ -61,7 +40,6 @@ $(document).ready(function() {
                   $("#audio_speech")[0].play();
               });
           }
-        $("#loading_img").hide();
         this.discard();
       }).fail(function(status_code, error_message, response) {
         $.post("/speech", {tosay: "I can't recognize you. Sorry"}, function(response) {
@@ -95,14 +73,12 @@ $(document).ready(function() {
     }
 
     // Define what the button clicks do.
-    $("#add_to_collection").click(add_to_collection);
     //starts timer
     intervalManager(true);
     // Initiate the camera widget on screen
     var options = {
-      shutter_ogg_url: "js/jpeg_camera/shutter.ogg",
-      shutter_mp3_url: "js/jpeg_camera/shutter.mp3",
-      swf_url: "js/jpeg_camera/jpeg_camera.swf"
+      swf_url: "js/jpeg_camera/jpeg_camera.swf",
+      quality: 1
     }
 
 

@@ -57,6 +57,9 @@ post '/compare' do
     puts e.message
     response = OpenStruct.new(:face_matches => [], :facecount => 0)
     puts response.face_matches
+  rescue Aws::Rekognition::Errors::ValidationException => e
+    puts e.message
+    response = OpenStruct.new(:face_matches => [], :facecount => 0)
   end
 
   if response.face_matches.count > 1
