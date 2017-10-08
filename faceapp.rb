@@ -1,6 +1,7 @@
 # faceapp.rb
 require 'rubygems'
 require 'bundler'
+require 'ostruct'
 Bundler.require
 # require "sinatra/base"
 # require "sinatra/reloader"
@@ -42,18 +43,27 @@ end
 post '/compare' do
   content_type :json
   client = Aws::Rekognition::Client.new()
-  response = client.search_faces_by_image({
-    collection_id: FACE_COLLECTION,
-    max_faces: 1,
-    face_match_threshold: 95,
-    image: {
-      bytes: request.body.read.to_s
-    }
-  })
+  response = ''
+  begin
+    response = client.search_faces_by_image({
+      collection_id: FACE_COLLECTION,
+      max_faces: 1,
+      face_match_threshold: 95,
+      image: {
+        bytes: request.body.read.to_s
+      }
+    })
+  rescue Exception => e
+    puts e.message
+    response = OpenStruct.new(:face_matches => [])
+    puts response.face_matches
+  end
+  puts "iam after the exeption"
+
   if response.face_matches.count > 1
     {:message => "Too many faces found"}.to_json
   elsif response.face_matches.count == 0
-    {:message => ""}.to_json
+    {:id => "0", :message => "No faces"}.to_json
   else
     # "Comparison finished - detected #{ response.face_matches[0].face.external_image_id } with #{ response.face_matches[0].face.confidence } accuracy."
     {:id => response.face_matches[0].face.external_image_id, :confidence => response.face_matches[0].face.confidence, :message => "Face found!"}.to_json

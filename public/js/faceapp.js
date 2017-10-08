@@ -41,7 +41,7 @@ $(document).ready(function() {
       snapshot.upload({api_url: api_url}).done(function(response) {
         var data = JSON.parse(response);
         console.log(data);
-        if (data.id !== undefined) {
+        if (data.id !== undefined && data.id != "0") {
             intervalManager(false);
             $("#upload_result").html(data.message + ": " + data.id + ", Confidence: " + data.confidence);
             // create speech response
@@ -51,12 +51,16 @@ $(document).ready(function() {
             });
            setTimeout(function () {intervalManager(true);},10000);
 
+        } else if (data.id !== undefined && data.id == "0") {
+
+          console.log("no one is here!");
+
         } else {
-          $.post("/speech", {tosay: "I can't recognize you. Sorry"}, function(response) {
-            $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
-            $("#audio_speech")[0].play();
-          });
-        }
+              $.post("/speech", {tosay: "I can't recognize you. Sorry"}, function(response) {
+                  $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
+                  $("#audio_speech")[0].play();
+              });
+          }
         $("#loading_img").hide();
         this.discard();
       }).fail(function(status_code, error_message, response) {
