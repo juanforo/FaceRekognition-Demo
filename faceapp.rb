@@ -72,10 +72,11 @@ post '/compare' do
     {:id => "UNRECOGNIZED", :message => "UNRECOGNIZED FACE"}.to_json
   else
     # "Comparison finished - detected #{ response.face_matches[0].face.external_image_id } with #{ response.face_matches[0].face.confidence } accuracy."
-    snsResponse = snsClient.publish({
-                                        phone_number: "+573154156033",
-                                        message: "Hello, this is the LucIAna service, announcing that " + response.face_matches[0].face.external_image_id + " has entered the premises"
-                                    })
+    # Sending sms report
+    #snsResponse = snsClient.publish({
+    #                                    phone_number: "+573154156033",
+    #                                    message: "Hello, this is the LucIAna service, announcing that " + response.face_matches[0].face.external_image_id + " has entered the premises"
+    #                                })
     {:id => response.face_matches[0].face.external_image_id, :confidence => response.face_matches[0].face.confidence, :message => "Face found!"}.to_json
   end
 end
