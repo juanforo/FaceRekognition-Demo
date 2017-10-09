@@ -67,18 +67,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--colour')
     args = parser.parse_args()
+
     if args.colour == 'red':
             set_everloop_color(255,0,0,0)
-            time.sleep(3);
-            set_everloop_color(0,0,0,0)
             sys.exit()
     if args.colour == 'green':
             set_everloop_color(0,255,0,0)
-            time.sleep(3);
-            set_everloop_color(0,0,0,0)
             sys.exit()
     if args.colour == 'blue':
             set_everloop_color(0,0,255,0)
-            time.sleep(3);
-            set_everloop_color(0,0,0,0)
             sys.exit()
