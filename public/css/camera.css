@@ -2,7 +2,7 @@ body {
   background-color: #1f1f1f;
   padding: 0.5em;
   text-align: center;
-  font-family: "Helvetica Neueu", "Helvetica", "Arial", sans;
+  font-family: 'Lato', sans-serif;
 }
 
 .tlt{
@@ -38,8 +38,13 @@ body {
 h1{
   color: #fff;
   font-size: 42px;
-  margin: 0;
+  margin: 20px;
   line-height: 47px;
   letter-spacing: 2px;
+}
+
+h2{
+  color: #fff;
+  margin: 20px;
 }
 

@@ -23,8 +23,10 @@ set :bind, '0.0.0.0'
 # The routes
 get '/' do
   # Show the main index page
+=begin
   pid = spawn('python public/python/test.py --colour blue')
   Process.detach(pid)
+=end
   erb :faceapp
 end
 

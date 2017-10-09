@@ -17,7 +17,7 @@ $(document).ready(function() {
 
     // Compare the photographed image to the current Rekognition collection
     var compare_image = function() {
-      $('.tlt').find('.texts li:first').text("Identifying...");
+      $('#status').find('.texts li:first').text("Identifying...");
       $('.tlt').textillate('in');
       var snapshot = camera.capture();
       var api_url = "/compare";
@@ -26,32 +26,78 @@ $(document).ready(function() {
         console.log(data);
         if (data.id !== undefined && data.id != "0" && data.id != "UNRECOGNIZED") {
             $('.tlt').textillate('out');
-            $('.tlt').find('.texts li:first').text("Hello  "+ data.id);
-            $('.tlt').textillate('in');
-            intervalManager(false);
-            // create speech response
-            $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have 3 new tickets, and 1, new project awaiting for you!, also, please remember to fill your oracle timesheets"}, function(response) {
-                $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
-                $("#audio_speech")[0].play();
-            });
+
+
+            //If JUAN
+
+            if(data.id == "JUAN"){
+                $('#status').find('.texts li:first').text("Success!");
+                $('.tlt').textillate('in');
+                $('.tlt2').textillate('in');
+                intervalManager(false);
+                // create speech response
+                $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have 3 new tickets, and 1, new project awaiting for you!, also, please remember to fill your oracle timesheets"}, function(response) {
+                    $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
+                    $("#audio_speech")[0].play();
+                });
+            }
+
+
+            //if Hollman
+            else if(data.id == "HOLLMAN"){
+                $('#status').find('.texts li:first').text("Success!");
+                $('.tlt').textillate('in');
+                intervalManager(false);
+                // create speech response
+                $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have 3 new tickets, and 1, new project awaiting for you!, also, please remember to fill your oracle timesheets"}, function(response) {
+                    $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
+                    $("#audio_speech")[0].play();
+                });
+            }
+
+            //if Julian
+            else if(data.id == "Julian"){
+                $('#status').find('.texts li:first').text("Success!");
+                $('.tlt').textillate('in');
+                intervalManager(false);
+                // create speech response
+                $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have 3 new tickets, and 1, new project awaiting for you!, also, please remember to fill your oracle timesheets"}, function(response) {
+                    $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
+                    $("#audio_speech")[0].play();
+                });
+            }
+
+            else {
+
+                $('#status').find('.texts li:first').text("Success!");
+                $('.tlt').textillate('in');
+                intervalManager(false);
+                // create speech response
+                $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have 3 new tickets, and 1, new project awaiting for you!, also, please remember to fill your oracle timesheets"}, function(response) {
+                    $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
+                    $("#audio_speech")[0].play();
+                });
+            }
+
+
 
             setTimeout(function () {intervalManager(true); $('.tlt').textillate('out');},10000);
 
-            $('.tlt').find('.texts li:first').text("Identifying...");
+            $('#status').find('.texts li:first').text("Identifying...");
 
         } else if (data.id !== undefined && data.id == "0") {
 
           console.log("no one is here!");
 
         } else {
-              $.post("/speech", {tosay: "I can't recognize you. Sorry"}, function(response) {
+              $.post("/speech", {tosay: "Sorry. I can't recognize you"}, function(response) {
                   $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
                   $("#audio_speech")[0].play();
               });
           }
         this.discard();
       }).fail(function(status_code, error_message, response) {
-        $.post("/speech", {tosay: "I can't recognize you. Sorry"}, function(response) {
+        $.post("/speech", {tosay: "Sorry. I can't recognize you"}, function(response) {
           $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
           $("#audio_speech")[0].play();
 
@@ -81,58 +127,109 @@ $(document).ready(function() {
       return greet;
     }
 
-    //Initializes the text animation parameters without starting it
+    //Initializes the text animation parameters without starting it for the status text
 
-      $('.tlt').textillate({
-          // enable looping
-          loop: false,
+    $('.tlt').textillate({
+        // enable looping
+        loop: false,
 
-          selector: '.texts',
+        selector: '.texts',
 
-          // sets the initial delay before starting the animation
-          // (note that depending on the in effect you may need to manually apply
-          // visibility: hidden to the element before running this plugin)
-          initialDelay: 1,
+        // sets the initial delay before starting the animation
+        // (note that depending on the in effect you may need to manually apply
+        // visibility: hidden to the element before running this plugin)
+        initialDelay: 1,
 
-          // set whether or not to automatically start animating
-          autoStart: false,
+        // set whether or not to automatically start animating
+        autoStart: false,
 
-          // in animation settings
-          in: {
-              // set the effect name
-              effect: 'flipInY',
+        // in animation settings
+        in: {
+            // set the effect name
+            effect: 'flipInY',
 
-              // set the delay factor applied to each consecutive character
-              delayScale: 1,
+            // set the delay factor applied to each consecutive character
+            delayScale: 1,
 
-              // set the delay between each character
-              delay: 25,
+            // set the delay between each character
+            delay: 25,
 
-              // set to true to animate all the characters at the same time
-              sync: false,
+            // set to true to animate all the characters at the same time
+            sync: false,
 
-              // randomize the character sequence
-              // (note that shuffle doesn't make sense with sync = true)
-              shuffle: false,
+            // randomize the character sequence
+            // (note that shuffle doesn't make sense with sync = true)
+            shuffle: false,
 
-              // reverse the character sequence
-              // (note that reverse doesn't make sense with sync = true)
-              reverse: false
-          },
+            // reverse the character sequence
+            // (note that reverse doesn't make sense with sync = true)
+            reverse: false
+        },
 
-          // out animation settings.
-          out: {
-              effect: 'flipOutY',
-              delayScale: 1,
-              delay: 25,
-              sync: false,
-              shuffle: false,
-              reverse: false
-          },
+        // out animation settings.
+        out: {
+            effect: 'flipOutY',
+            delayScale: 1,
+            delay: 25,
+            sync: false,
+            shuffle: false,
+            reverse: false
+        },
 
-          // set the type of token to animate (available types: 'char' and 'word')
-          type: 'char'
-      });
+        // set the type of token to animate (available types: 'char' and 'word')
+        type: 'char'
+    });
+
+    $('.tlt2').textillate({
+        // enable looping
+        loop: false,
+
+        selector: '.texts',
+
+        // sets the initial delay before starting the animation
+        // (note that depending on the in effect you may need to manually apply
+        // visibility: hidden to the element before running this plugin)
+        initialDelay: 1,
+
+        // set whether or not to automatically start animating
+        autoStart: false,
+
+        // in animation settings
+        in: {
+            // set the effect name
+            effect: 'flipInY',
+
+            // set the delay factor applied to each consecutive character
+            delayScale: 1,
+
+            // set the delay between each character
+            delay: 25,
+
+            // set to true to animate all the characters at the same time
+            sync: false,
+
+            // randomize the character sequence
+            // (note that shuffle doesn't make sense with sync = true)
+            shuffle: false,
+
+            // reverse the character sequence
+            // (note that reverse doesn't make sense with sync = true)
+            reverse: false
+        },
+
+        // out animation settings.
+        out: {
+            effect: 'flipOutY',
+            delayScale: 1,
+            delay: 25,
+            sync: false,
+            shuffle: false,
+            reverse: false
+        },
+
+        // set the type of token to animate (available types: 'char' and 'word')
+        type: 'char'
+    });
 
     // Define what the button clicks do.
     //starts timer
