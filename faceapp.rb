@@ -76,6 +76,7 @@ post '/compare' do
                                         phone_number: "+573154156033",
                                         message: "Hello, this is the LucIAna service, announcing that " + response.face_matches[0].face.external_image_id + " has entered the premises"
                                     })
+    system 'python python/test.py --colour red'
     {:id => response.face_matches[0].face.external_image_id, :confidence => response.face_matches[0].face.confidence, :message => "Face found!"}.to_json
   end
 end
