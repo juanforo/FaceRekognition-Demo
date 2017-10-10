@@ -74,6 +74,8 @@ $(document).ready(function() {
                 $('#newTickets').find('.texts li:first').text("New Tickets: 4");
                 $('#ongoingTickets').find('.texts li:first').text("Ongoing Tickets: 1");
                 $('#projects').find('.texts li:first').text("Current Project: Mclatchy");
+                $('#alert1').find('.texts li:first').text("No Alerts");
+                $('#alert2').find('.texts li:first').text("");
                 $('.tlt').textillate('in');
                 $('.tlt2').textillate('in');
                 intervalManager(false);

@@ -23,10 +23,8 @@ set :bind, '0.0.0.0'
 # The routes
 get '/' do
   # Show the main index page
-=begin
   pid = spawn('python public/python/test.py --colour blue')
   Process.detach(pid)
-=end
   erb :faceapp
 end
 
@@ -46,7 +44,6 @@ end
 
 post '/compare' do
 
-=begin
   #tries to access python script to operate the matrix
   begin
     pid = spawn('python public/python/test.py --colour blue')
@@ -54,7 +51,6 @@ post '/compare' do
   rescue Exception => e
     puts e.message
   end
-=end
 
   content_type :json
   client = Aws::Rekognition::Client.new()
@@ -88,31 +84,31 @@ post '/compare' do
     {:id => "UNRECOGNIZED", :message => "UNRECOGNIZED FACE"}.to_json
 
     #tries to access python script to operate the matrix
-=begin
     begin
       pid = spawn('python public/python/test.py --colour red')
       Process.detach(pid)
     rescue Exception => e
       puts e.message
     end
-=end
   else
     # "Comparison finished - detected #{ response.face_matches[0].face.external_image_id } with #{ response.face_matches[0].face.confidence } accuracy."
-#    snsResponse = snsClient.publish({
-#                                        phone_number: "+573154156033",
-#                                        message: "Hello, this is the LucIAna service, announcing that " + response.face_matches[0].face.external_image_id + " has entered the premises"
-#                                    })
+    snsResponse = snsClient.publish({
+                                        phone_number: "+573154156033",
+                                        message: "Hello, this is the LucIAna service, announcing that " + response.face_matches[0].face.external_image_id + " has entered the premises"
+                                    })
+    snsResponse = snsClient.publish({
+                                        phone_number: "+573176379772",
+                                        message: "Hello, this is the LucIAna service, announcing that " + response.face_matches[0].face.external_image_id + " has entered the premises"
+                                    })
     {:id => response.face_matches[0].face.external_image_id, :confidence => response.face_matches[0].face.confidence, :message => "Face found!"}.to_json
 
     #tries to access python script to operate the matrix
-=begin
     begin
       pid = spawn('python public/python/test.py --colour green')
       Process.detach(pid)
     rescue Exception => e
       puts e.message
     end
-=end
   end
 end
 
