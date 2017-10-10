@@ -51,7 +51,7 @@ $(document).ready(function() {
             //if Hollman
             else if(data.id.toUpperCase() == "HOLLMAN"){
                 $('#status').find('.texts li:first').text("Success!");
-                $('#name').find('.texts li:first').text("Name: Hollman Eduardo Enciso Peña");
+                $('#name').find('.texts li:first').text("Name: Hollman Eduardo Enciso Rocha");
                 $('#newTickets').find('.texts li:first').text("New Tickets: 0");
                 $('#ongoingTickets').find('.texts li:first').text("Ongoing Tickets: 1");
                 $('#projects').find('.texts li:first').text("New Project: Buzzpoints");
@@ -61,7 +61,7 @@ $(document).ready(function() {
                 $('.tlt2').textillate('in');
                 intervalManager(false);
                 // create speech response
-                $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have no new tickets, 2, ongoing tickets, and you look pretty danm gay. Also please remember to fill your oracle timesheets, and log your travel expenses"}, function(response) {
+                $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have no new tickets, 2, ongoing tickets. Also please remember to fill your oracle timesheets, and log your travel expenses"}, function(response) {
                     $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
                     $("#audio_speech")[0].play();
                 });
