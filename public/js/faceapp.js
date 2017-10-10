@@ -61,7 +61,7 @@ $(document).ready(function() {
                 $('.tlt2').textillate('in');
                 intervalManager(false);
                 // create speech response
-                $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have no new tickets, 2, ongoing tickets. Also please remember to fill your oracle timesheets, and log your travel expenses"}, function(response) {
+                $.post("/speech", {tosay: "Good " + greetingTime(moment()) + " " + data.id + ". Welcome to eendava. Today you have no new tickets, 2, ongoing tickets,and you were assigned to the buzzpoints project, Also please remember to fill your oracle timesheets, and log your travel expenses"}, function(response) {
                     $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
                     $("#audio_speech")[0].play();
                 });
