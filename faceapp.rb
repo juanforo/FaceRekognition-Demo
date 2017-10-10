@@ -80,8 +80,8 @@ post '/compare' do
 
   elsif response.face_matches.count == 0 && response.respond_to?('facecount')
     {:id => "0", :message => "No faces"}.to_json
+
   elsif response.face_matches.count == 0 && !response.respond_to?('facecount')
-    {:id => "UNRECOGNIZED", :message => "UNRECOGNIZED FACE"}.to_json
 
     #tries to access python script to operate the matrix
     begin
@@ -90,6 +90,9 @@ post '/compare' do
     rescue Exception => e
       puts e.message
     end
+
+    {:id => "UNRECOGNIZED", :message => "UNRECOGNIZED FACE"}.to_json
+
   else
     # "Comparison finished - detected #{ response.face_matches[0].face.external_image_id } with #{ response.face_matches[0].face.confidence } accuracy."
     snsResponse = snsClient.publish({
@@ -100,7 +103,6 @@ post '/compare' do
                                         phone_number: "+573176379772",
                                         message: "Hello, this is the LucIAna service, announcing that " + response.face_matches[0].face.external_image_id + " has entered the premises"
                                     })
-    {:id => response.face_matches[0].face.external_image_id, :confidence => response.face_matches[0].face.confidence, :message => "Face found!"}.to_json
 
     #tries to access python script to operate the matrix
     begin
@@ -109,6 +111,9 @@ post '/compare' do
     rescue Exception => e
       puts e.message
     end
+
+    {:id => response.face_matches[0].face.external_image_id, :confidence => response.face_matches[0].face.confidence, :message => "Face found!"}.to_json
+
   end
 end
 
