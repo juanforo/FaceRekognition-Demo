@@ -256,10 +256,6 @@ $(document).ready(function() {
     //starts timer
     intervalManager(true);
 
-    $.post("/speech", {tosay: "Hello! I am the Luciana project"}, function(response) {
-        $("#audio_speech").attr("src", "data:audio/mpeg;base64," + response);
-        $("#audio_speech")[0].play();
-    });
     // Initiate the camera widget on screen
     var options = {
       swf_url: "js/jpeg_camera/jpeg_camera.swf",

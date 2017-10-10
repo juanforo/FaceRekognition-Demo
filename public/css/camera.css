@@ -5,10 +5,6 @@ body {
   font-family: 'Lato', sans-serif;
 }
 
-.tlt{
-  visibility: hidden !important;
-}
-
 #camera {
   display: inline-block;
   position: absolute;
@@ -24,7 +20,8 @@ body {
   top: 10px;
   left: 10px;
   z-index: 99;
-  width: 1280px;
+  background-color: rgba(15,15,15,0.8);
+  width: 372px;
   height: 720px;
   position: absolute;
   text-align: left;
@@ -36,15 +33,17 @@ body {
 }
 
 h1{
-  color: #fff;
+  color: #00a7a8;
   font-size: 42px;
+  font-weight: normal;
   margin: 20px;
   line-height: 47px;
   letter-spacing: 2px;
 }
 
 h2{
-  color: #fff;
+  color: #00a7a8;
+  font-weight: normal;
   margin: 20px;
 }
 
